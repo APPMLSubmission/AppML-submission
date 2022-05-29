@@ -17,6 +17,7 @@ from sklearn.metrics import roc_curve
 import sklearn.metrics as metrics
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
+#Getting the data from the CSV and printing 
 data = pd.read_csv('dementia_dataset.csv', sep=',')
 
 print(data)
@@ -26,7 +27,7 @@ print(data.dtypes)
 
 data.loc[:, ["Subject ID", "MRI ID", "Group", "Visit", "MR Delay", "M/F", "Hand", "Age", "EDUC", "SES", "MMSE", "CDR", "eTIV", "nWBV", "ASF"]]
 
-
+#Checking the sums of the columns to see if any missing values, then adding the values with the median
 data.isna().sum()
 print(data.SES)
 data['SES'].fillna(data['SES'].median(), inplace = True)
@@ -39,14 +40,14 @@ print(data)
 
 
 print(data.Group)
-
+#Bar charts adapt for each value
 ax=sns.countplot(data=data, x= data.Group)
 plt.title("Dementia Count" , size=40)
 plt.xlabel('Dementia')
 plt.ylabel ('Number')
 plt.show()
 
-
+#Correlation Matrix 
 corrMatrix = data.corr()
 sns.heatmap(corrMatrix, annot=True)
 plt.show()
@@ -59,7 +60,7 @@ data['Group'] = data['Group'].replace(['Nondemented', 'Demented'], [0,1])
 data.shape
 
 
-
+#Checking for outliers, also seeing the important details of the column values
 data['SES'].describe()
 data['MMSE'].describe()
 data['EDUC'].describe() #Outliers Present
@@ -68,6 +69,7 @@ data['eTIV'].describe() #Outliers present
 data['nWBV'].describe()
 data['ASF'].describe()
 
+#Boxplot and removal of Outliers
 data['EDUC'].describe() #Outliers Present <8 20< 
 plt.boxplot(data['EDUC'])
 plt.show()
@@ -106,6 +108,7 @@ xbox = data[boxplot].values
 plt.boxplot(xbox)
 plt.show()
 
+#Setting up the test with the features we are going to use 
 features = ["M/F", "Age", "SES", "MMSE", "EDUC", "CDR", "eTIV", "nWBV", "ASF"]
 x = data[features].values
 
